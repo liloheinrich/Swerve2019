@@ -1,23 +1,11 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package org.usfirst.frc.team2557.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
-
-import org.usfirst.frc.team2557.robot.subsystems.GyroIntegrated;
-import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
-import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
-
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-// import com.revrobotics.CANSparkMax;
-// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-// import edu.wpi.first.wpilibj.PIDController;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 	
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -26,34 +14,27 @@ import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
  * floating around.
  */
 public class RobotMap {
-	
-	public static GyroIntegrated gyroIntegrated;
-	public static SwerveDrive swerveDrive;
-	public static WheelDrive wheelDrive;
-	
-	public static WheelDrive backRight;
-	public static WheelDrive backLeft;
-	public static WheelDrive frontRight;
-	public static WheelDrive frontLeft;
-//	public static WPI_TalonSRX angleMotor;
-//	public static CANSparkMax speedMotor;
-//  public static PIDController pidController;
-	
-	public static AHRS Gyro1;
+	public static AHRS gyro;
+	public static WPI_TalonSRX angleMotorFR, angleMotorFL, angleMotorBR, angleMotorBL;
+	public static CANSparkMax speedMotorFR, speedMotorFL, speedMotorBR, speedMotorBL;
+	public static AnalogInput encoderFR, encoderFL, encoderBR, encoderBL;
 	
 	public static void init() {
+		gyro = new AHRS(SPI.Port.kMXP);
 		
-		WheelDrive backRight = new WheelDrive (4, 0, 0);
-		WheelDrive backLeft = new WheelDrive (1, 1, 1);
-		WheelDrive frontRight = new WheelDrive (1, 1, 1);
-		WheelDrive frontLeft = new WheelDrive (1, 1, 1);
+		angleMotorFR = new WPI_TalonSRX(0);
+		angleMotorFL = new WPI_TalonSRX(1);
+		angleMotorBR = new WPI_TalonSRX(2);
+		angleMotorBL = new WPI_TalonSRX(3);
 
-		Gyro1 = new AHRS(SPI.Port.kMXP);
-		
-//		angleMotor = new WPI_TalonSRX(4);
-//		speedMotor = new CANSparkMax(1, MotorType.kBrushless);
-		
-		swerveDrive = new SwerveDrive(backRight, backLeft, frontRight, frontLeft);
-		gyroIntegrated = new GyroIntegrated(backRight, backLeft, frontRight, frontLeft);
+		speedMotorFR = new CANSparkMax(0, MotorType.kBrushless);
+		speedMotorFL = new CANSparkMax(1, MotorType.kBrushless);
+		speedMotorBR = new CANSparkMax(2, MotorType.kBrushless);
+		speedMotorBL = new CANSparkMax(3, MotorType.kBrushless);
+
+		encoderFR = new AnalogInput(0);
+		encoderFL = new AnalogInput(1);
+		encoderBR = new AnalogInput(2);
+		encoderBL = new AnalogInput(3);
 	}
 }

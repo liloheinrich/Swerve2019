@@ -7,24 +7,18 @@
 
 package org.usfirst.frc.team2557.robot;
 
+import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
 // import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
- */
+
 public class Robot extends TimedRobot {
 	public static OI m_oi;
-
+	public static SwerveDrive swerveDrive;
 	
 //	private WheelDrive backRight = new WheelDrive (1, 1, 1);
 //	private WheelDrive backLeft = new WheelDrive (1, 1, 1);

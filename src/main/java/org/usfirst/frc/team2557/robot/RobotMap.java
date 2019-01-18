@@ -14,7 +14,7 @@ import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
 // import com.revrobotics.CANSparkMax;
 // import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 // import edu.wpi.first.wpilibj.PIDController;
-
+	
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -34,12 +34,16 @@ public class RobotMap {
 //	public static CANSparkMax speedMotor;
 //  public static PIDController pidController;
 	
+	public static AHRS Gyro1;
+	
 	public static void init() {
 		
 		WheelDrive backRight = new WheelDrive (4, 0, 0);
 		WheelDrive backLeft = new WheelDrive (1, 1, 1);
 		WheelDrive frontRight = new WheelDrive (1, 1, 1);
 		WheelDrive frontLeft = new WheelDrive (1, 1, 1);
+
+		Gyro1 = new AHRS(SPI.Port.kMXP);
 		
 //		angleMotor = new WPI_TalonSRX(4);
 //		speedMotor = new CANSparkMax(1, MotorType.kBrushless);

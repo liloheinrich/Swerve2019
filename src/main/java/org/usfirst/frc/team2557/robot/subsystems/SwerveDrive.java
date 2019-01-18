@@ -33,8 +33,7 @@ public class SwerveDrive extends Subsystem {
 	    RobotMap.swerveModFL.drive (speedFL, angleFL);
 	}
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+    // Put methods for controlling this subsystem here
 
     public void initDefaultCommand() {
     	setDefaultCommand(new SwerveDriveCommand());

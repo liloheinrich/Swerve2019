@@ -53,12 +53,11 @@ public class GyroSwerveDrive extends Subsystem {
     swerveModFL.drive (speedFL, angleFL);
   }
   
-  public GyroSwerveDrive (SwerveModule swerveModBR, SwerveModule swerveModBL, 
-      SwerveModule swerveModFR, SwerveModule swerveModFL){
-    this.swerveModBR = swerveModBR;
-    this.swerveModBL = swerveModBL;
-    this.swerveModFR = swerveModFR;
-    this.swerveModFL = swerveModFL;
+  public GyroSwerveDrive (){
+    this.swerveModBR = RobotMap.swerveModBR;
+    this.swerveModBL = RobotMap.swerveModBL;
+    this.swerveModFR = RobotMap.swerveModFR;
+    this.swerveModFL = RobotMap.swerveModFL;
   }
   
   @Override

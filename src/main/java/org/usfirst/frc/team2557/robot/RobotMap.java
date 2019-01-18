@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.SPI;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.usfirst.frc.team2557.robot.subsystems.SwerveModule;
 	
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -18,6 +20,7 @@ public class RobotMap {
 	public static WPI_TalonSRX angleMotorFR, angleMotorFL, angleMotorBR, angleMotorBL;
 	public static CANSparkMax speedMotorFR, speedMotorFL, speedMotorBR, speedMotorBL;
 	public static AnalogInput encoderFR, encoderFL, encoderBR, encoderBL;
+	public static SwerveModule swerveModBR, swerveModBL, swerveModFR, swerveModFL;
 	
 	public static void init() {
 		gyro = new AHRS(SPI.Port.kMXP);
@@ -36,5 +39,10 @@ public class RobotMap {
 		encoderFL = new AnalogInput(1);
 		encoderBR = new AnalogInput(2);
 		encoderBL = new AnalogInput(3);
+
+		swerveModBR = new SwerveModule (angleMotorBR, speedMotorBR, encoderBR);
+		swerveModBL = new SwerveModule (angleMotorBL, speedMotorBL, encoderBL);
+		swerveModFR = new SwerveModule (angleMotorFR, speedMotorFR, encoderFR);
+		swerveModFL = new SwerveModule (angleMotorFL, speedMotorFL, encoderFL);
 	}
 }

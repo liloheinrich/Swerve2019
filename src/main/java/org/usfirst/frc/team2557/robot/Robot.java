@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	public static OI m_oi;
-	public static SwerveModule swerveModBR, swerveModBL, swerveModFR, swerveModFL;
 	public static SwerveDrive swerveDrive;
 	public static GyroSwerveDrive gyroIntegrated;
 
@@ -20,16 +19,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		// NOTE: RobotMap MUST be initialized before subsystems
 		RobotMap.init();
 
-		swerveModBR = new SwerveModule (RobotMap.angleMotorBR, RobotMap.speedMotorBR, RobotMap.encoderBR);
-		swerveModBL = new SwerveModule (RobotMap.angleMotorBL, RobotMap.speedMotorBL, RobotMap.encoderBL);
-		swerveModFR = new SwerveModule (RobotMap.angleMotorFR, RobotMap.speedMotorFR, RobotMap.encoderFR);
-		swerveModFL = new SwerveModule (RobotMap.angleMotorFL, RobotMap.speedMotorFL, RobotMap.encoderFL);
-		swerveDrive = new SwerveDrive(swerveModBR, swerveModBL, swerveModFR, swerveModFL);
-		gyroIntegrated = new GyroSwerveDrive(swerveModBR, swerveModBL, swerveModFR, swerveModFL);
+		swerveDrive = new SwerveDrive();
+		gyroIntegrated = new GyroSwerveDrive();
 
-		// NOTE: the oi MUST be constructed after subsystems
+		// NOTE: oi MUST be constructed after subsystems
 		m_oi = new OI();
 
 		m_chooser = new SendableChooser<>();

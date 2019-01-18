@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2557.robot.subsystems;
 
+import org.usfirst.frc.team2557.robot.RobotMap;
 import org.usfirst.frc.team2557.robot.commands.SwerveDriveCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -36,14 +37,12 @@ public class SwerveDrive extends Subsystem {
 	    swerveModFL.drive (speedFL, angleFL);
 	}
 	
-
-	public SwerveDrive (SwerveModule swerveModBR, SwerveModule swerveModBL, 
-			SwerveModule swerveModFR, SwerveModule swerveModFL){
-		this.swerveModBR = swerveModBR;
-		this.swerveModBL = swerveModBL;
-		this.swerveModFR = swerveModFR;
-		this.swerveModFL = swerveModFL;
-	}
+	public SwerveDrive (){
+		this.swerveModBR = RobotMap.swerveModBR;
+		this.swerveModBL = RobotMap.swerveModBL;
+		this.swerveModFR = RobotMap.swerveModFR;
+		this.swerveModFL = RobotMap.swerveModFL;
+	  }
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

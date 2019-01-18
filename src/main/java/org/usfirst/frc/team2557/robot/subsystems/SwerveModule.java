@@ -33,6 +33,9 @@ public class SwerveModule extends Subsystem {
 	}
 
     public void initDefaultCommand() {
+		// NOTE: there should be no default command here 
+		// unless you plan to run only one swerve module at a time
+		
         //setDefaultCommand(new MySpecialCommand());
     }
 }

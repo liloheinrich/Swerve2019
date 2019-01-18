@@ -2,9 +2,8 @@ package org.usfirst.frc.team2557.robot;
 
 import org.usfirst.frc.team2557.robot.subsystems.GyroSwerveDrive;
 import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
-// import edu.wpi.first.networktables.NetworkTable;
-// import edu.wpi.first.networktables.NetworkTableEntry;
-// import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -47,7 +46,6 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		m_autonomousCommand = m_chooser.getSelected();
-
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
@@ -57,38 +55,22 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 
-		// NetworkTable contoursTable = NetworkTableInstance.getDefault().getTable("/vision/contours");
-		// NetworkTableEntry centerXs = contoursTable.getEntry("centerX");
-		// NetworkTableEntry centerYs = contoursTable.getEntry("centerY");
-		// NetworkTableEntry heights = contoursTable.getEntry("height");
-		// NetworkTableEntry widths = contoursTable.getEntry("width");
-		// NetworkTableEntry areas = contoursTable.getEntry("area");
-		// NetworkTableEntry distances = contoursTable.getEntry("distance");
-		// NetworkTableEntry rotations = contoursTable.getEntry("rotation");
+		NetworkTable contoursTable = NetworkTableInstance.getDefault().getTable("/vision/contours");
 
-		// double[] xs = new double[0];
-		// double[] ys = new double[0];
-		// double[] hs = new double[0];
-		// double[] ws = new double[0];
-		// double[] as = new double[0];
-		// double[] ds = new double[0];
-		// double[] rs = new double[0];
+		String[] labels = {"x", "y", "h", "w", "area", "dist", "rot"};
+		double[][] data = new double[7][0];
 
-		// centerXs.getDoubleArray(xs);
-		// centerYs.getDoubleArray(ys);
-		// heights.getDoubleArray(hs);
-		// widths.getDoubleArray(ws);
-		// areas.getDoubleArray(as);
-		// distances.getDoubleArray(ds);
-		// rotations.getDoubleArray(rs);
+		contoursTable.getEntry("centerX").getDoubleArray(data[0]);
+		contoursTable.getEntry("centerY").getDoubleArray(data[1]);
+		contoursTable.getEntry("height").getDoubleArray(data[2]);
+		contoursTable.getEntry("width").getDoubleArray(data[3]);
+		contoursTable.getEntry("area").getDoubleArray(data[4]);
+		contoursTable.getEntry("distance").getDoubleArray(data[5]);
+		contoursTable.getEntry("rotation").getDoubleArray(data[6]);
 
-		// System.out.println("xs: " + xs.toString());
-		// System.out.println("ys: " + ys.toString());
-		// System.out.println("hs: " + hs.toString());
-		// System.out.println("ws: " + ws.toString());
-		// System.out.println("as: " + as.toString());
-		// System.out.println("ds: " + ds.toString());
-		// System.out.println("rs: " + rs.toString());
+		for (int i = 0; i < data.length; i++) {
+			System.out.println(labels[i] + ": " + data[i].toString());
+		}
 	}
 
 	@Override

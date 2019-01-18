@@ -5,17 +5,14 @@ import org.usfirst.frc.team2557.robot.commands.SwerveDriveCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class SwerveDrive extends Subsystem {
-	// distance between each wheel axle on the length and width.
-	public final double L = 21.3;
-	public final double W = 21.3;
 	
-	public void drive (double strafe, double forward, double rotate) {
-		double r = Math.sqrt ((L * L) + (W * W));
+	public void drive (double str, double fwd, double rot) {
+		double r = Math.sqrt ((RobotMap.L * RobotMap.L) + (RobotMap.W * RobotMap.W));
 		
-		double a = strafe - rotate * (L / r);
-		double b = strafe + rotate * (L / r);
-		double c = - forward - rotate * (W / r);
-    	double d = - forward + rotate * (W / r);
+		double a = str - rot * (RobotMap.L / r);
+		double b = str + rot * (RobotMap.L / r);
+		double c = - fwd - rot * (RobotMap.W / r);
+    	double d = - fwd + rot * (RobotMap.W / r);
 		
 		double speedBR = Math.sqrt ((a * a) + (d * d));
 	    double speedBL = Math.sqrt ((a * a) + (c * c));
@@ -25,7 +22,12 @@ public class SwerveDrive extends Subsystem {
 	    double angleBR = Math.atan2 (a, d) / Math.PI;
 	    double angleBL = Math.atan2 (a, c) / Math.PI;
 	    double angleFR = Math.atan2 (b, d) / Math.PI;
-	    double angleFL = Math.atan2 (b, c) / Math.PI;
+		double angleFL = Math.atan2 (b, c) / Math.PI;
+		
+		if (speedBL < RobotMap.deadband && speedBL > -RobotMap.deadband) { speedBL = 0.0; }
+		if (speedBR < RobotMap.deadband && speedBR > -RobotMap.deadband) { speedBR = 0.0; }
+		if (speedFL < RobotMap.deadband && speedFL > -RobotMap.deadband) { speedFL = 0.0; }
+		if (speedFR < RobotMap.deadband && speedFR > -RobotMap.deadband) { speedFR = 0.0; }
 	    
 	    RobotMap.swerveModBR.drive (speedBR, angleBR);
 	    RobotMap.swerveModBL.drive (speedBL, angleBL);

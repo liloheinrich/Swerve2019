@@ -5,22 +5,19 @@ import org.usfirst.frc.team2557.robot.commands.GyroSwerveDriveCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GyroSwerveDrive extends Subsystem {
-  // length and width between the drivetrain's wheel axles
-  public final double L = 21.3;
-  public final double W = 21.3;
   
-  public void gyroDrive (double strafe, double forward, double rotate) {
-    double r = Math.sqrt((L * L) + (W * W));
+  public void gyroDrive (double str, double fwd, double rot) {
+    double r = Math.sqrt((RobotMap.L * RobotMap.L) + (RobotMap.W * RobotMap.W));
 
     double angle = RobotMap.gyro.getAngle();
-    double intermediary = forward * Math.cos(angle) + strafe * Math.sin(angle);
-    strafe = - forward * Math.sin(angle) + strafe * Math.cos(angle);
-    forward = intermediary;
+    double intermediary = fwd * Math.cos(angle) + str * Math.sin(angle);
+    str = - fwd * Math.sin(angle) + str * Math.cos(angle);
+    fwd = intermediary;
 
-    double a = strafe - rotate * (L / r);
-		double b = strafe + rotate * (L / r);
-		double c = forward - rotate * (W / r);
-    double d = forward + rotate * (W / r);
+    double a = str - rot * (RobotMap.L / r);
+		double b = str + rot * (RobotMap.L / r);
+		double c = fwd - rot * (RobotMap.W / r);
+    double d = fwd + rot * (RobotMap.W / r);
     
     double speedBR = Math.sqrt ((a * a) + (d * d));
     double speedBL = Math.sqrt ((a * a) + (c * c));
@@ -37,6 +34,11 @@ public class GyroSwerveDrive extends Subsystem {
     if (speedFR > max) { speedFR = max; } 
     if (speedFL > max) { speedFL = max; }
     if (max > 1) { speedBL /= max; speedFR /= max; speedFL /= max; }
+
+    if (speedBL < RobotMap.deadband && speedBL > -RobotMap.deadband) { speedBL = 0.0; }
+    if (speedBR < RobotMap.deadband && speedBR > -RobotMap.deadband) { speedBR = 0.0; }
+    if (speedFL < RobotMap.deadband && speedFL > -RobotMap.deadband) { speedFL = 0.0; }
+    if (speedFR < RobotMap.deadband && speedFR > -RobotMap.deadband) { speedFR = 0.0; }
 
     RobotMap.swerveModBR.drive (speedBR, angleBR);
     RobotMap.swerveModBL.drive (speedBL, angleBL);

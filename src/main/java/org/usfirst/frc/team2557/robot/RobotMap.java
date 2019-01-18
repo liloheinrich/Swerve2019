@@ -9,6 +9,9 @@ public class RobotMap {
 	public static AHRS gyro;
 	public static AnalogInput encoderFR, encoderFL, encoderBR, encoderBL;
 	public static SwerveModule swerveModBR, swerveModBL, swerveModFR, swerveModFL;
+	public static final double L = 21.3;
+	public static final double W = 21.3;
+	public static final double deadband = 0.05;
 	
 	public static void init() {
 		gyro = new AHRS(SPI.Port.kMXP);

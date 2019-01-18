@@ -2,6 +2,7 @@ package org.usfirst.frc.team2557.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -12,11 +13,13 @@ public class SwerveModule extends Subsystem {
 	private final double kI = 0.0;
 	private final double kD = 0.0;
 	private final double kS = 0.5;
+	private WPI_TalonSRX angleMotor;
 	private CANSparkMax speedMotor;
 	private PIDController pidController;
 	
-	public SwerveModule (WPI_TalonSRX angleMotor, CANSparkMax speedMotor, AnalogInput encoder) {
-		this.speedMotor = speedMotor;
+	public SwerveModule (int angleMotorIndex, int speedMotorIndex, AnalogInput encoder) {
+		this.speedMotor = new CANSparkMax(speedMotorIndex, MotorType.kBrushless);
+		this.angleMotor = new WPI_TalonSRX(angleMotorIndex);
 		this.pidController = new PIDController (kP, kI, kD, encoder, angleMotor);
 		this.pidController.setInputRange(-1, 1);
 	    this.pidController.setOutputRange(-1, 1);

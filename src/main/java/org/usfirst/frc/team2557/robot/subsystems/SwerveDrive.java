@@ -8,10 +8,6 @@ public class SwerveDrive extends Subsystem {
 	// distance between each wheel axle on the length and width.
 	public final double L = 21.3;
 	public final double W = 21.3;
-	SwerveModule swerveModBR;
-	SwerveModule swerveModBL;
-	SwerveModule swerveModFR;
-	SwerveModule swerveModFL;
 	
 	public void drive (double strafe, double forward, double rotate) {
 		double r = Math.sqrt ((L * L) + (W * W));
@@ -31,18 +27,11 @@ public class SwerveDrive extends Subsystem {
 	    double angleFR = Math.atan2 (b, d) / Math.PI;
 	    double angleFL = Math.atan2 (b, c) / Math.PI;
 	    
-	    swerveModBR.drive (speedBR, angleBR);
-	    swerveModBL.drive (speedBL, angleBL);
-	    swerveModFR.drive (speedFR, angleFR);
-	    swerveModFL.drive (speedFL, angleFL);
+	    RobotMap.swerveModBR.drive (speedBR, angleBR);
+	    RobotMap.swerveModBL.drive (speedBL, angleBL);
+	    RobotMap.swerveModFR.drive (speedFR, angleFR);
+	    RobotMap.swerveModFL.drive (speedFL, angleFL);
 	}
-	
-	public SwerveDrive (){
-		this.swerveModBR = RobotMap.swerveModBR;
-		this.swerveModBL = RobotMap.swerveModBL;
-		this.swerveModFR = RobotMap.swerveModFR;
-		this.swerveModFL = RobotMap.swerveModFL;
-	  }
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

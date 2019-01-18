@@ -8,10 +8,6 @@ public class GyroSwerveDrive extends Subsystem {
   // length and width between the drivetrain's wheel axles
   public final double L = 21.3;
   public final double W = 21.3;
-  SwerveModule swerveModBR;
-	SwerveModule swerveModBL;
-	SwerveModule swerveModFR;
-  SwerveModule swerveModFL;
   
   public void gyroDrive (double strafe, double forward, double rotate) {
     double r = Math.sqrt((L * L) + (W * W));
@@ -47,17 +43,10 @@ public class GyroSwerveDrive extends Subsystem {
       speedFL /= max;
     }
 
-    swerveModBR.drive (speedBR, angleBR);
-    swerveModBL.drive (speedBL, angleBL);
-    swerveModFR.drive (speedFR, angleFR);
-    swerveModFL.drive (speedFL, angleFL);
-  }
-  
-  public GyroSwerveDrive (){
-    this.swerveModBR = RobotMap.swerveModBR;
-    this.swerveModBL = RobotMap.swerveModBL;
-    this.swerveModFR = RobotMap.swerveModFR;
-    this.swerveModFL = RobotMap.swerveModFL;
+    RobotMap.swerveModBR.drive (speedBR, angleBR);
+    RobotMap.swerveModBL.drive (speedBL, angleBL);
+    RobotMap.swerveModFR.drive (speedFR, angleFR);
+    RobotMap.swerveModFL.drive (speedFL, angleFL);
   }
   
   @Override

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team2557.robot;
 
+import org.usfirst.frc.team2557.robot.subsystems.GyroIntegrated;
 import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI m_oi;
 	public static SwerveDrive swerveDrive;
+	public static GyroIntegrated gyroIntegrated;
 	
 //	private WheelDrive backRight = new WheelDrive (1, 1, 1);
 //	private WheelDrive backLeft = new WheelDrive (1, 1, 1);

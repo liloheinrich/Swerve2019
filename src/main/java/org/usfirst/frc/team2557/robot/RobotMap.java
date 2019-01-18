@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team2557.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
+
+import org.usfirst.frc.team2557.robot.subsystems.GyroIntegrated;
 import org.usfirst.frc.team2557.robot.subsystems.SwerveDrive;
 import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
 
@@ -23,6 +27,7 @@ import org.usfirst.frc.team2557.robot.subsystems.WheelDrive;
  */
 public class RobotMap {
 	
+	public static GyroIntegrated gyroIntegrated;
 	public static SwerveDrive swerveDrive;
 	public static WheelDrive wheelDrive;
 	
@@ -48,6 +53,7 @@ public class RobotMap {
 //		angleMotor = new WPI_TalonSRX(4);
 //		speedMotor = new CANSparkMax(1, MotorType.kBrushless);
 		
-		swerveDrive = new SwerveDrive (backRight, backLeft, frontRight, frontLeft);
+		swerveDrive = new SwerveDrive(backRight, backLeft, frontRight, frontLeft);
+		gyroIntegrated = new GyroIntegrated(backRight, backLeft, frontRight, frontLeft);
 	}
 }

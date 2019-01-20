@@ -11,6 +11,7 @@ public class RobotMap {
 	public static SwerveModule swerveModBR, swerveModBL, swerveModFR, swerveModFL;
 	public static final double L = 21.3;
 	public static final double W = 21.3;
+	public static final double R = Math.sqrt((RobotMap.L * RobotMap.L) + (RobotMap.W * RobotMap.W));
 	public static final double deadband = 0.05;
 	
 	public static void init() {

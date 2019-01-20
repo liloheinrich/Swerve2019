@@ -7,12 +7,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class SwerveDrive extends Subsystem {
 	
 	public void drive (double str, double fwd, double rot) {
-		double r = Math.sqrt ((RobotMap.L * RobotMap.L) + (RobotMap.W * RobotMap.W));
-		
-		double a = str - rot * (RobotMap.L / r);
-		double b = str + rot * (RobotMap.L / r);
-		double c = - fwd - rot * (RobotMap.W / r);
-    	double d = - fwd + rot * (RobotMap.W / r);
+		double a = str - rot * (RobotMap.L / RobotMap.R);
+		double b = str + rot * (RobotMap.L / RobotMap.R);
+		double c = - fwd - rot * (RobotMap.W / RobotMap.R);
+    	double d = - fwd + rot * (RobotMap.W / RobotMap.R);
 		
 		double speedBR = Math.sqrt ((a * a) + (d * d));
 	    double speedBL = Math.sqrt ((a * a) + (c * c));
@@ -28,7 +26,7 @@ public class SwerveDrive extends Subsystem {
 		if (speedBR < RobotMap.deadband && speedBR > -RobotMap.deadband) { speedBR = 0.0; }
 		if (speedFL < RobotMap.deadband && speedFL > -RobotMap.deadband) { speedFL = 0.0; }
 		if (speedFR < RobotMap.deadband && speedFR > -RobotMap.deadband) { speedFR = 0.0; }
-	    
+
 	    RobotMap.swerveModBR.drive (speedBR, angleBR);
 	    RobotMap.swerveModBL.drive (speedBL, angleBL);
 	    RobotMap.swerveModFR.drive (speedFR, angleFR);

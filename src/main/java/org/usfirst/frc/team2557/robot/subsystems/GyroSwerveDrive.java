@@ -7,17 +7,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class GyroSwerveDrive extends Subsystem {
   
   public void gyroDrive (double str, double fwd, double rot) {
-    double r = Math.sqrt((RobotMap.L * RobotMap.L) + (RobotMap.W * RobotMap.W));
-
     double angle = RobotMap.gyro.getAngle();
     double intermediary = fwd * Math.cos(angle) + str * Math.sin(angle);
     str = - fwd * Math.sin(angle) + str * Math.cos(angle);
     fwd = intermediary;
 
-    double a = str - rot * (RobotMap.L / r);
-		double b = str + rot * (RobotMap.L / r);
-		double c = fwd - rot * (RobotMap.W / r);
-    double d = fwd + rot * (RobotMap.W / r);
+    double a = str - rot * (RobotMap.L / RobotMap.R);
+		double b = str + rot * (RobotMap.L / RobotMap.R);
+		double c = fwd - rot * (RobotMap.W / RobotMap.R);
+    double d = fwd + rot * (RobotMap.W / RobotMap.R);
     
     double speedBR = Math.sqrt ((a * a) + (d * d));
     double speedBL = Math.sqrt ((a * a) + (c * c));

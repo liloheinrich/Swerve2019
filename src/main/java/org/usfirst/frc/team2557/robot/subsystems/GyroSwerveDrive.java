@@ -32,12 +32,7 @@ public class GyroSwerveDrive extends Subsystem {
     if (speedFR > max) { speedFR = max; } 
     if (speedFL > max) { speedFL = max; }
     if (max > 1) { speedBL /= max; speedFR /= max; speedFL /= max; }
-
-    if (speedBL < RobotMap.deadband && speedBL > -RobotMap.deadband) { speedBL = 0.0; }
-    if (speedBR < RobotMap.deadband && speedBR > -RobotMap.deadband) { speedBR = 0.0; }
-    if (speedFL < RobotMap.deadband && speedFL > -RobotMap.deadband) { speedFL = 0.0; }
-    if (speedFR < RobotMap.deadband && speedFR > -RobotMap.deadband) { speedFR = 0.0; }
-
+    
     RobotMap.swerveModBR.drive (speedBR, angleBR);
     RobotMap.swerveModBL.drive (speedBL, angleBL);
     RobotMap.swerveModFR.drive (speedFR, angleFR);

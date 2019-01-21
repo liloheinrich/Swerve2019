@@ -1,45 +1,63 @@
 package org.usfirst.frc.team2557.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.usfirst.frc.team2557.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class SwerveModule extends Subsystem {
-	private final double MAX_VOLTS = 4.95;
-	private final double kP = 1.0;
+	private final double kP = 0.1;
 	private final double kI = 0.0;
 	private final double kD = 0.0;
-	private final double kS = 0.5;
+
 	private WPI_TalonSRX angleMotor;
 	private CANSparkMax speedMotor;
 	private PIDController pidController;
+	private AnalogInput encoder;
 
-	public SwerveModule(int angleMotorIndex, int speedMotorIndex, AnalogInput encoder) {
-		this.speedMotor = new CANSparkMax(speedMotorIndex, MotorType.kBrushless);
-		this.angleMotor = new WPI_TalonSRX(angleMotorIndex);
-		this.pidController = new PIDController(kP, kI, kD, encoder, angleMotor);
-		this.pidController.setInputRange(-1, 1);
-		this.pidController.setOutputRange(-1, 1);
-		this.pidController.setContinuous();
-		this.pidController.enable();
+	private double setpoint;
+	public double error;
+	public double output;
+	
+	public SwerveModule(int swerveModIndex, boolean inverted) {
+		speedMotor = new CANSparkMax(swerveModIndex, MotorType.kBrushless);
+		angleMotor = new WPI_TalonSRX(swerveModIndex);
+		angleMotor.setInverted(inverted);
+		encoder = new AnalogInput(swerveModIndex);
+		
+		pidController = new PIDController(kP, kI, kD, encoder, angleMotor);
+		pidController.setInputRange(0, 4095);
+		pidController.setOutputRange(-1, 1);
+		pidController.setContinuous(true);
+		pidController.setAbsoluteTolerance(RobotMap.toleranceAnglePID);
+		pidController.enable();
 
 		angleMotor.configContinuousCurrentLimit(30, 0);
 		angleMotor.configPeakCurrentLimit(30, 0);
 		angleMotor.configPeakCurrentDuration(100, 0);
 		angleMotor.enableCurrentLimit(true);
 	}
+
+	public double getEncoderCount(){
+		return encoder.getValue();
+	}
+
+	public double getSetpoint(){
+		return setpoint;
+	}
 	
 	public void drive (double speed, double angle) {
 		speedMotor.set (speed);
-		double setpoint = angle * (MAX_VOLTS * kS) + (MAX_VOLTS * kS);
-	    if (setpoint < 0) { setpoint += MAX_VOLTS; }
-	    if (setpoint > MAX_VOLTS) { setpoint -= MAX_VOLTS; }
-	    this.pidController.setSetpoint(setpoint);
+
+		setpoint = ((angle + 1) * RobotMap.circumference / 2) % RobotMap.circumference;
+		pidController.setSetpoint(setpoint);
+		error = pidController.getError();
+		output = pidController.get();
 	}
 
     public void initDefaultCommand() {

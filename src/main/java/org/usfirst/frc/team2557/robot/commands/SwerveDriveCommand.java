@@ -26,8 +26,7 @@ public class SwerveDriveCommand extends Command {
         if (axis5 < RobotMap.deadbandJoystickInput && axis5 > -RobotMap.deadbandJoystickInput) { axis5 = 0.0; }
         
         Robot.swerveDrive.drive(axis1, axis5);
-        // Robot.swerveDrive.drive(Robot.m_oi.joystick.getRawAxis(0), 
-        //         Robot.m_oi.joystick.getRawAxis(1),  Robot.m_oi.joystick.getRawAxis(4));
+        // Robot.swerveDrive.drive(axis0, axis1, axis4);
     }
 
     protected boolean isFinished() {

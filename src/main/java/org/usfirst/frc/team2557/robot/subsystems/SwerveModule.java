@@ -3,76 +3,55 @@ package org.usfirst.frc.team2557.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import org.usfirst.frc.team2557.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class SwerveModule extends Subsystem {
-	private final double[] PID;
-	private final double setpointOffset;
-
-	private WPI_TalonSRX angleMotor;
-	private CANSparkMax speedMotor;
-	private PIDController pidController;
-	private AnalogInput encoder;
-
-	private double setpoint;
+	private final double[] pidConstants;
 	public double error;
 	public double output;
-	public double encPID;
-	
-	public SwerveModule(int swerveModIndex, boolean inverted) {
-		speedMotor = new CANSparkMax(swerveModIndex, MotorType.kBrushless);
-		angleMotor = new WPI_TalonSRX(swerveModIndex);
-		angleMotor.setInverted(inverted);
-		encoder = new AnalogInput(swerveModIndex);
-		PID = RobotMap.PIDconst[swerveModIndex];
-		setpointOffset = RobotMap.setpointOffset[swerveModIndex];
 
-		pidController = new PIDController(PID[0], PID[1], PID[2], encoder, angleMotor);
-		pidController.setInputRange(0, RobotMap.circumference);
-		pidController.setOutputRange(-1, 1);
-		pidController.setContinuous(true);
-		// pidController.setAbsoluteTolerance(RobotMap.toleranceAnglePID);
+	public WPI_TalonSRX angleMotor;
+	public CANSparkMax speedMotor;
+	public PIDController pidController;
+	public AnalogInput encoder;
+
+	public SwerveModule(int swerveModIndex) {
+		speedMotor = new CANSparkMax(swerveModIndex + 11, MotorType.kBrushless);
+		angleMotor = new WPI_TalonSRX(swerveModIndex);
+		encoder = new AnalogInput(swerveModIndex);
+
+		pidConstants = RobotMap.SWERVE_PID_CONSTANTS[swerveModIndex];
+		pidController = new PIDController(pidConstants[0], pidConstants[1], pidConstants[2], 
+				encoder, angleMotor, RobotMap.SWERVE_LOOP_TIME);
+
+		pidController.setInputRange(0.0, RobotMap.SWERVE_ENC_CIRC);
+		pidController.setOutputRange(-1.0, 1.0);
+		// pidController.setContinuous(true); // ? doesn't seem to work really anyways
+		pidController.setAbsoluteTolerance(RobotMap.SWERVE_PID_TOLERANCE);
 		pidController.enable();
 
-		angleMotor.configContinuousCurrentLimit(30, 0);
-		angleMotor.configPeakCurrentLimit(30, 0);
-		angleMotor.configPeakCurrentDuration(100, 0);
+		angleMotor.setInverted(RobotMap.ANGLE_MOTOR_INVERTED[swerveModIndex]);
+		angleMotor.configContinuousCurrentLimit(RobotMap.SWERVE_MAX_CURRENT, 0);
+		angleMotor.configPeakCurrentLimit(RobotMap.SWERVE_MAX_CURRENT, 0);
+		angleMotor.configPeakCurrentDuration(RobotMap.SWERVE_CURRENT_DUR, 0);
 		angleMotor.enableCurrentLimit(true);
 
-		// System.out.println("is acc ch: " + encoder.isAccumulatorChannel());
-		// encoder.initAccumulator();
-		// encoder.setAccumulatorInitialValue(0);
-		// encoder.resetAccumulator();
+		speedMotor.setSmartCurrentLimit(40);
+		speedMotor.setRampRate(0.15);
 	}
 
-	public double getEncoderCount(){
-		return encoder.getValue();
-	}
-
-	public double getSetpoint(){
-		return setpoint;
-	}
-	
-	public void drive (double speed, double angle) {
-		speedMotor.set (speed);
-
-		setpoint = ((angle + 1) * RobotMap.circumference / 2) % RobotMap.circumference;
-		setpoint = (setpoint + setpointOffset + RobotMap.circumference) % RobotMap.circumference;
-		pidController.setSetpoint(setpoint);
+	// angle and speed input from -1.0 to 1.0, like joystick input
+	public void driveMod(double speed, double angle) {
+		pidController.setSetpoint(angle);
+		speedMotor.set(speed);
 		error = pidController.getError();
 		output = pidController.get();
-		encPID = encoder.pidGet();
 	}
 
-
     public void initDefaultCommand() {
-		// NOTE: there should be no default command here 
-		// unless you plan to run only one swerve module at a time
-
+			// NOTE: no default command unless running swerve modules seperately
     }
 }
